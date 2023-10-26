@@ -25,7 +25,7 @@ def draw_background():
 
     for h in range(SCREEN_HEIGHT // TILE_SIZE):
         for i in range(random.randint(0, SCREEN_WIDTH // TILE_SIZE)):
-            x = random.randint(0, 11) * TILE_SIZE
+            x = random.randint(0, SCREEN_WIDTH) 
             y = SCREEN_HEIGHT - TILE_SIZE*(h + 1)
             background.blit(textured_grass, (x, y))
 
