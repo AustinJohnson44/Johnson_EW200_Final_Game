@@ -14,6 +14,8 @@ plain_grass = pygame.image.load("assets/tiles/plain_grass.png").convert()
 plain_grass.set_colorkey((0, 0, 0))
 textured_grass = pygame.image.load("assets/tiles/textured_grass.png").convert()
 textured_grass.set_colorkey((0, 0, 0))
+dirt = pygame.image.load("assets/tiles/dirt.png").convert()
+dirt.set_colorkey((0, 0, 0))
 
 
 def draw_background():
@@ -22,12 +24,16 @@ def draw_background():
     for h in range(SCREEN_HEIGHT // TILE_SIZE):
         for i in range(SCREEN_WIDTH // TILE_SIZE):  # // to give quotient and not a float
             background.blit(plain_grass, (TILE_SIZE * i, SCREEN_HEIGHT - TILE_SIZE*(h + 1)))
-
-    for h in range(SCREEN_HEIGHT // TILE_SIZE):
+        # add textured grass
         for i in range(random.randint(0, SCREEN_WIDTH // TILE_SIZE)):
-            x = random.randint(0, SCREEN_WIDTH) 
+            x = random.randint(0, SCREEN_WIDTH)
             y = SCREEN_HEIGHT - TILE_SIZE*(h + 1)
             background.blit(textured_grass, (x, y))
+        # add dirt
+        for i in range(random.randint(0, SCREEN_WIDTH // TILE_SIZE)):
+            x = random.randint(0, SCREEN_WIDTH)
+            y = SCREEN_HEIGHT - TILE_SIZE * (h + 1)
+            background.blit(dirt, (x, y))
 
 
 draw_background()
