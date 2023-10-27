@@ -6,10 +6,10 @@ class Bank(pygame.sprite.Sprite):
 
     def __init__(self, x, y):
         super().__init__()
-        self.bank = pygame.image.load("assets/tiles/bank.png").convert()
-        self.bank.set_colorkey((0, 0, 0))
+        self.bank_image = pygame.image.load("assets/tiles/bank.png").convert()
+        self.bank_image.set_colorkey((0, 0, 0))
 
-        self.rect = pygame.rect.Rect(x, y, self.bank.get_width(), self.bank.get_height())
+        self.rect = pygame.rect.Rect(x, y, self.bank_image.get_width(), self.bank_image.get_height())
 
     def draw(self, screen):
-        screen.blit(self.bank, (self.rect.x, self.rect.y))
+        screen.blit(self.bank_image, (self.rect.x, self.rect.y))

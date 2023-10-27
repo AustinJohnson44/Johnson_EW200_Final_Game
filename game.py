@@ -3,6 +3,7 @@ import sys
 import random
 import safe_house
 import bank
+from building import Building, city
 from settings import *
 
 pygame.init()  # tells pygame to look/listen for inputs and events
@@ -17,9 +18,13 @@ textured_grass = pygame.image.load("assets/tiles/textured_grass.png").convert()
 textured_grass.set_colorkey((0, 0, 0))
 
 # create safe house in bottom left corner
-safe_house = safe_house.SafeHouse(SCREEN_WIDTH - 47*TILE_SIZE, SCREEN_HEIGHT - 5*TILE_SIZE)
+my_safe_house = safe_house.SafeHouse(CITY_LEFT, CITY_BOTTOM)
 # create a bank in the top right corner
-bank = bank.Bank(SCREEN_WIDTH - 5*TILE_SIZE, SCREEN_HEIGHT - 34*TILE_SIZE)
+my_bank = bank.Bank(CITY_RIGHT, SCREEN_HEIGHT - 34*TILE_SIZE)
+# create city buildings
+for b in range(NUM_BUILDINGS):
+    city.add(Building(random.randint(CITY_LEFT, CITY_RIGHT),
+                      random.randint(CITY_TOP, CITY_BOTTOM)))
 
 background = screen.copy()  # makes a second copy of the screen/canvas
 clock = pygame.time.Clock()
@@ -52,9 +57,11 @@ while True:
 
     # draw game screen
     screen.blit(background, (0, 0))
-    safe_house.draw(screen)
-    bank.draw(screen)
+
+    my_safe_house.draw(screen)
+    my_bank.draw(screen)
+
+    city.draw(screen)
 
     pygame.display.flip()
     clock.tick(60)  # locks game to 60fps
-
