@@ -22,9 +22,13 @@ my_safe_house = safe_house.SafeHouse(CITY_LEFT, CITY_BOTTOM)
 # create a bank in the top right corner
 my_bank = bank.Bank(CITY_RIGHT, CITY_TOP)
 # create city buildings
-for b in range(NUM_BUILDINGS):
-    city.add(Building(random.randint(CITY_LEFT + TILE_SIZE, CITY_RIGHT - TILE_SIZE),
-                      random.randint(CITY_TOP + TILE_SIZE, CITY_BOTTOM - TILE_SIZE)))
+# for b in range(NUM_BUILDINGS):
+    # city.add(Building(random.randint(CITY_LEFT + TILE_SIZE, CITY_RIGHT - TILE_SIZE),
+                      # random.randint(CITY_TOP + TILE_SIZE, CITY_BOTTOM - TILE_SIZE)))
+for h in range(1, 10, 5):
+    for i in range(1, SCREEN_WIDTH // TILE_SIZE, 5):  # // to give quotient and not a float
+        city.add(Building(TILE_SIZE * i, TILE_SIZE * h))
+
 
 background = screen.copy()  # makes a second copy of the screen/canvas
 clock = pygame.time.Clock()
