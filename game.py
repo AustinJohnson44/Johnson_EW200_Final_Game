@@ -23,8 +23,8 @@ my_safe_house = safe_house.SafeHouse(CITY_LEFT, CITY_BOTTOM)
 my_bank = bank.Bank(CITY_RIGHT, SCREEN_HEIGHT - 34*TILE_SIZE)
 # create city buildings
 for b in range(NUM_BUILDINGS):
-    city.add(Building(random.randint(CITY_LEFT, CITY_RIGHT),
-                      random.randint(CITY_TOP, CITY_BOTTOM)))
+    city.add(Building(random.randint(CITY_LEFT + TILE_SIZE, CITY_RIGHT - TILE_SIZE),
+                      random.randint(CITY_TOP + TILE_SIZE, CITY_BOTTOM - TILE_SIZE)))
 
 background = screen.copy()  # makes a second copy of the screen/canvas
 clock = pygame.time.Clock()
