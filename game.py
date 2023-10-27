@@ -25,8 +25,8 @@ my_bank = bank.Bank(CITY_RIGHT, CITY_TOP)
 # for b in range(NUM_BUILDINGS):
     # city.add(Building(random.randint(CITY_LEFT + TILE_SIZE, CITY_RIGHT - TILE_SIZE),
                       # random.randint(CITY_TOP + TILE_SIZE, CITY_BOTTOM - TILE_SIZE)))
-for h in range(1, 10, 5):
-    for i in range(1, SCREEN_WIDTH // TILE_SIZE, 5):  # // to give quotient and not a float
+for h in range(CITY_TOP // TILE_SIZE, CITY_BOTTOM // TILE_SIZE, 7):
+    for i in range((CITY_LEFT // TILE_SIZE) + 4, (CITY_RIGHT // TILE_SIZE), 7):  # // to give quotient and not a float
         city.add(Building(TILE_SIZE * i, TILE_SIZE * h))
 
 
