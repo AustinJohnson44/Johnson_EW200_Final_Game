@@ -16,11 +16,13 @@ plain_grass = pygame.image.load("assets/tiles/plain_grass.png").convert()
 plain_grass.set_colorkey((0, 0, 0))
 textured_grass = pygame.image.load("assets/tiles/textured_grass.png").convert()
 textured_grass.set_colorkey((0, 0, 0))
-horizontal_road = pygame.image.load("assets/tiles/road3.png").convert()
-# horizontal_road = pygame.transform.scale(h_road,
-                                         # (h_road.get_width() * SCALE, h_road.get_height() * SCALE))
+h_road = pygame.image.load("assets/tiles/road3.png").convert()
+horizontal_road = pygame.transform.scale(h_road,
+                                         (h_road.get_width() * 2, h_road.get_height() * 2))
 horizontal_road.set_colorkey((0, 0, 0))
-vertical_road = pygame.image.load("assets/tiles/road8.png").convert()
+v_road = pygame.image.load("assets/tiles/road8.png").convert()
+vertical_road = pygame.transform.scale(v_road,
+                                       (v_road.get_width() * 2, v_road.get_height() * 2))
 vertical_road.set_colorkey((0, 0, 0))
 
 # create safe house in bottom left corner
@@ -52,12 +54,17 @@ def draw_background():
             background.blit(textured_grass, (x, y))
     # make road system
     # make horizontal roads
-    for h in range(4 * TILE_SIZE, SCREEN_HEIGHT, 7 * TILE_SIZE):
+    for h in range(3 * TILE_SIZE, CITY_BOTTOM, 7 * TILE_SIZE):
         for i in range(0, SCREEN_WIDTH, TILE_SIZE):
             x = i
             y = h
             background.blit(horizontal_road, (x, y))
-
+    # make vertical roads
+    for i in range(3 * TILE_SIZE, SCREEN_WIDTH, 7 * TILE_SIZE):
+        for h in range(0, CITY_BOTTOM, TILE_SIZE):
+            x = i
+            y = h
+            background.blit(vertical_road, (x, y))
 
 draw_background()
 
