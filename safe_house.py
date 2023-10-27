@@ -4,7 +4,7 @@ from settings import *
 
 class SafeHouse(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, scale = BUILDING_SCALE):
+    def __init__(self, x, y, scale=SCALE):
         super().__init__()
         img = pygame.image.load("assets/tiles/safe_house.png").convert()
         self.safe_house_image = pygame.transform.scale(img,

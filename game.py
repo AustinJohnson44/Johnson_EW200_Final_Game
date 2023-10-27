@@ -16,15 +16,18 @@ plain_grass = pygame.image.load("assets/tiles/plain_grass.png").convert()
 plain_grass.set_colorkey((0, 0, 0))
 textured_grass = pygame.image.load("assets/tiles/textured_grass.png").convert()
 textured_grass.set_colorkey((0, 0, 0))
+horizontal_road = pygame.image.load("assets/tiles/road3.png").convert()
+# horizontal_road = pygame.transform.scale(h_road,
+                                         # (h_road.get_width() * SCALE, h_road.get_height() * SCALE))
+horizontal_road.set_colorkey((0, 0, 0))
+vertical_road = pygame.image.load("assets/tiles/road8.png").convert()
+vertical_road.set_colorkey((0, 0, 0))
 
 # create safe house in bottom left corner
 my_safe_house = safe_house.SafeHouse(CITY_LEFT, CITY_BOTTOM)
 # create a bank in the top right corner
 my_bank = bank.Bank(CITY_RIGHT, CITY_TOP)
 # create city buildings
-# for b in range(NUM_BUILDINGS):
-    # city.add(Building(random.randint(CITY_LEFT + TILE_SIZE, CITY_RIGHT - TILE_SIZE),
-                      # random.randint(CITY_TOP + TILE_SIZE, CITY_BOTTOM - TILE_SIZE)))
 for a in range((CITY_TOP // TILE_SIZE) + 5, CITY_BOTTOM // TILE_SIZE, 7):
     for b in range(0, (SCREEN_WIDTH // TILE_SIZE), 7):  # // to give quotient and not a float
         city.add(Building(TILE_SIZE * b, TILE_SIZE * a))
@@ -47,6 +50,13 @@ def draw_background():
             x = random.randint(0, SCREEN_WIDTH)
             y = SCREEN_HEIGHT - TILE_SIZE*(h + 1)
             background.blit(textured_grass, (x, y))
+    # make road system
+    # make horizontal roads
+    for h in range(4 * TILE_SIZE, SCREEN_HEIGHT, 7 * TILE_SIZE):
+        for i in range(0, SCREEN_WIDTH, TILE_SIZE):
+            x = i
+            y = h
+            background.blit(horizontal_road, (x, y))
 
 
 draw_background()

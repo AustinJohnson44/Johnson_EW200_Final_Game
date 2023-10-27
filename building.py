@@ -3,7 +3,7 @@ from settings import *
 
 
 class Building(pygame.sprite.Sprite):
-    def __init__(self, x, y, scale = BUILDING_SCALE):
+    def __init__(self, x, y, scale=SCALE):
         super().__init__()
         img = pygame.image.load("assets/tiles/silver_building.png").convert()
         self.image = pygame.transform.scale(img,
