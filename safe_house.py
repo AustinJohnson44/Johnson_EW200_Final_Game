@@ -13,3 +13,4 @@ class SafeHouse(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.safe_house, (self.rect.x, self.rect.y))
+
