@@ -1,21 +1,24 @@
 import pygame
 import sys
 import random
+import safe_house
 from settings import *
 
 pygame.init()  # tells pygame to look/listen for inputs and events
 
 screen = pygame.display.set_mode((SCREEN_WIDTH,
-                                  SCREEN_HEIGHT))  # collapsed variables inside parenthesis
-background = screen.copy()  # makes a second copy of the screen/canvas
-clock = pygame.time.Clock()
+                                  SCREEN_HEIGHT))
+pygame.display.set_caption("Cops and Robbers")
 
 plain_grass = pygame.image.load("assets/tiles/plain_grass.png").convert()
 plain_grass.set_colorkey((0, 0, 0))
 textured_grass = pygame.image.load("assets/tiles/textured_grass.png").convert()
 textured_grass.set_colorkey((0, 0, 0))
-dirt = pygame.image.load("assets/tiles/dirt.png").convert()
-dirt.set_colorkey((0, 0, 0))
+
+my_safe_house = safe_house.SafeHouse(SCREEN_WIDTH - 47*TILE_SIZE, SCREEN_HEIGHT - 5*TILE_SIZE)  # create safe house in bottom left corner
+
+background = screen.copy()  # makes a second copy of the screen/canvas
+clock = pygame.time.Clock()
 
 
 def draw_background():
@@ -29,6 +32,8 @@ def draw_background():
             x = random.randint(0, SCREEN_WIDTH)
             y = SCREEN_HEIGHT - TILE_SIZE*(h + 1)
             background.blit(textured_grass, (x, y))
+
+
 
 
 draw_background()
@@ -45,6 +50,7 @@ while True:
 
     # draw game screen
     screen.blit(background, (0, 0))
+    my_safe_house.draw(screen)
 
     pygame.display.flip()
     clock.tick(60)  # locks game to 60fps
