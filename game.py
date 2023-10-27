@@ -20,7 +20,7 @@ textured_grass.set_colorkey((0, 0, 0))
 # create safe house in bottom left corner
 my_safe_house = safe_house.SafeHouse(CITY_LEFT, CITY_BOTTOM)
 # create a bank in the top right corner
-my_bank = bank.Bank(CITY_RIGHT, SCREEN_HEIGHT - 34*TILE_SIZE)
+my_bank = bank.Bank(CITY_RIGHT, CITY_TOP)
 # create city buildings
 for b in range(NUM_BUILDINGS):
     city.add(Building(random.randint(CITY_LEFT + TILE_SIZE, CITY_RIGHT - TILE_SIZE),
