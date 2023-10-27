@@ -13,7 +13,7 @@ class Building(pygame.sprite.Sprite):
 
     def construct_building(self):
         # draw a building onto the screen
-        for i in range(4):
-            x = random.randint(0, SCREEN_WIDTH)
-            y = SCREEN_HEIGHT - TILE_SIZE * (h + 1)
-            background.blit(textured_grass, (x, y))
+
+
+    def draw(self, screen):
+
