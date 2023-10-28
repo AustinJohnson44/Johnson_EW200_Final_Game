@@ -103,8 +103,8 @@ while True:
     my_robber.update()
 
     # check for collisions
-    #pygame.sprite.spritecollide(my_safe_house, city, True)
-    #pygame.sprite.spritecollide(my_bank, city, True)
+    pygame.sprite.spritecollide(my_safe_house, city, True)
+    pygame.sprite.spritecollide(my_bank, city, True)
 
     # draw game screen
     screen.blit(background, (0, 0))
