@@ -3,7 +3,7 @@ import sys
 import random
 import safe_house
 import bank
-import people
+import robber
 from building import Building, city
 from settings import *
 
@@ -29,13 +29,14 @@ vertical_road.set_colorkey((0, 0, 0))
 # create city buildings
 for a in range(0, SCREEN_HEIGHT // TILE_SIZE, 7):
     for b in range(0, (SCREEN_WIDTH // TILE_SIZE), 7):
-        city.add(Building(TILE_SIZE * b, TILE_SIZE * a))
+        building = Building(TILE_SIZE * b, TILE_SIZE * a)
+        city.add(building)
 # create safe house in bottom left corner
 my_safe_house = safe_house.SafeHouse(0, SCREEN_HEIGHT - 4 * TILE_SIZE)
 # create a bank in the top right corner
 my_bank = bank.Bank(SCREEN_WIDTH - 3 * TILE_SIZE, 0)
 # create a robber on the screen
-my_robber = people.Robber(4 * TILE_SIZE, SCREEN_HEIGHT - 4 * TILE_SIZE)
+my_robber = robber.Robber(4 * TILE_SIZE, SCREEN_HEIGHT - 4 * TILE_SIZE)
 
 
 background = screen.copy()  # makes a second copy of the screen/canvas
@@ -105,6 +106,12 @@ while True:
     # check for collisions
     pygame.sprite.spritecollide(my_safe_house, city, True)
     pygame.sprite.spritecollide(my_bank, city, True)
+    for building in city:
+        if pygame.sprite.collide_rect(my_robber, building):
+            my_robber.moving_right = False
+            my_robber.moving_left = False
+            my_robber.moving_down = False
+            my_robber.moving_up = False
 
     # draw game screen
     screen.blit(background, (0, 0))
