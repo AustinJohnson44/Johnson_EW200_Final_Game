@@ -104,14 +104,13 @@ while True:
     my_robber.update()
 
     # check for collisions
-    pygame.sprite.spritecollide(my_safe_house, city, True)
-    pygame.sprite.spritecollide(my_bank, city, True)
+    # pygame.sprite.spritecollide(my_safe_house, city, True)
+    # pygame.sprite.spritecollide(my_bank, city, True)
+    # for building in city:
     for building in city:
-        if pygame.sprite.collide_rect(my_robber, building):
+        if my_robber.rect.colliderect(building.rect):
             my_robber.moving_right = False
-            my_robber.moving_left = False
-            my_robber.moving_down = False
-            my_robber.moving_up = False
+            my_robber.rect.right = building.rect.left
 
     # draw game screen
     screen.blit(background, (0, 0))
