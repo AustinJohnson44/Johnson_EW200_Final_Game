@@ -113,12 +113,16 @@ while True:
     for building in city:
         if my_robber.rect.colliderect(building.rect):
             if my_robber.rect.right == building.rect.right:
+                my_robber.moving_left = False
                 my_robber.rect.left = building.rect.right
             if my_robber.rect.left == building.rect.left:
+                my_robber.moving_right = False
                 my_robber.rect.right = building.rect.left
             if my_robber.rect.top == building.rect.top:
+                my_robber.moving_down = False
                 my_robber.rect.bottom = building.rect.top
             if my_robber.rect.bottom == building.rect.bottom:
+                my_robber.moving_up = False
                 my_robber.rect.top = building.rect.bottom
 
     # draw game screen
