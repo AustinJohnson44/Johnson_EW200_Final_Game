@@ -101,8 +101,8 @@ while True:
                 my_robber.moving_down = False
 
     # update game objects
-    city.update()
     my_robber.update()
+    city.update()
 
     # check for collisions
     pygame.sprite.spritecollide(my_safe_house, city, True)
@@ -112,12 +112,12 @@ while True:
             my_robber.rect.left = my_safe_house.rect.right
     for building in city:
         if my_robber.rect.colliderect(building.rect):
-            if my_robber.rect.right == building.rect.right:
-                my_robber.moving_left = False
-                my_robber.rect.left = building.rect.right
             if my_robber.rect.left == building.rect.left:
                 my_robber.moving_right = False
                 my_robber.rect.right = building.rect.left
+            if my_robber.rect.right == building.rect.right:
+                my_robber.moving_left = False
+                my_robber.rect.left = building.rect.right
             if my_robber.rect.top == building.rect.top:
                 my_robber.moving_down = False
                 my_robber.rect.bottom = building.rect.top
