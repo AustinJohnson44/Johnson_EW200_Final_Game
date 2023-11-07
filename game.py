@@ -117,22 +117,16 @@ while True:
             collision_direction = None  # Initialize to None
 
             if my_robber.rect.right >= building.rect.left and my_robber.moving_right and building.rect.top <= my_robber.rect.centery <= building.rect.bottom:
-                collision_direction = "left"
-            if my_robber.rect.left <= building.rect.right and my_robber.moving_left and building.rect.top <= my_robber.rect.centery <= building.rect.bottom:
-                collision_direction = "right"
-            if my_robber.rect.bottom >= building.rect.top and my_robber.moving_down and building.rect.left <= my_robber.rect.centerx <= building.rect.right:
-                collision_direction = "top"
-            if my_robber.rect.top <= building.rect.bottom and my_robber.moving_up and building.rect.left <= my_robber.rect.centerx <= building.rect.right:
-                collision_direction = "bottom"
-
-            # Adjust the character's position based on collision direction
-            if collision_direction == "left":
+                # collision from left
                 my_robber.rect.right = building.rect.left
-            if collision_direction == "right":
+            if my_robber.rect.left <= building.rect.right and my_robber.moving_left and building.rect.top <= my_robber.rect.centery <= building.rect.bottom:
+                # collision from right
                 my_robber.rect.left = building.rect.right
-            if collision_direction == "top":
+            if my_robber.rect.bottom >= building.rect.top and my_robber.moving_down and building.rect.left <= my_robber.rect.centerx <= building.rect.right:
+                # collision from top
                 my_robber.rect.bottom = building.rect.top
-            if collision_direction == "bottom":
+            if my_robber.rect.top <= building.rect.bottom and my_robber.moving_up and building.rect.left <= my_robber.rect.centerx <= building.rect.right:
+                # collision from bottom
                 my_robber.rect.top = building.rect.bottom
                 
     # draw game screen
