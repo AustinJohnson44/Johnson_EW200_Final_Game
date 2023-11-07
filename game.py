@@ -113,15 +113,28 @@ while True:
     # collision with buildings in city
     for building in city:
         if my_robber.rect.colliderect(building.rect):
-            if my_robber.rect.right >= building.rect.left:  # collision from left
-                my_robber.rect.right = building.rect.left
-            elif my_robber.rect.left <= building.rect.right:  # collision from right
-                my_robber.rect.left = building.rect.right
-            elif my_robber.rect.bottom >= building.rect.top:  # collision from top
-                my_robber.rect.bottom = building.rect.top
-            elif my_robber.rect.top <= building.rect.bottom:  # collision from bottom
-                my_robber.rect.top = building.rect.bottom
+            # Determine the direction of collision
+            collision_direction = None  # Initialize to None
 
+            if my_robber.rect.right >= building.rect.left and my_robber.moving_right:
+                collision_direction = "left"
+            if my_robber.rect.left <= building.rect.right and my_robber.moving_left:
+                collision_direction = "right"
+            if my_robber.rect.bottom >= building.rect.top and my_robber.moving_down:
+                collision_direction = "top"
+            if my_robber.rect.top <= building.rect.bottom and my_robber.moving_up:
+                collision_direction = "bottom"
+
+            # Adjust the character's position based on collision direction
+            if collision_direction == "left":
+                my_robber.rect.right = building.rect.left
+            if collision_direction == "right":
+                my_robber.rect.left = building.rect.right
+            if collision_direction == "top":
+                my_robber.rect.bottom = building.rect.top
+            if collision_direction == "bottom":
+                my_robber.rect.top = building.rect.bottom
+                
     # draw game screen
     screen.blit(background, (0, 0))
 
