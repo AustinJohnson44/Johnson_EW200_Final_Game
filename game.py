@@ -116,13 +116,13 @@ while True:
             # Determine the direction of collision
             collision_direction = None  # Initialize to None
 
-            if my_robber.rect.right >= building.rect.left and my_robber.moving_right:
+            if my_robber.rect.right >= building.rect.left and my_robber.moving_right and building.rect.top <= my_robber.rect.centery <= building.rect.bottom:
                 collision_direction = "left"
-            if my_robber.rect.left <= building.rect.right and my_robber.moving_left:
+            if my_robber.rect.left <= building.rect.right and my_robber.moving_left and building.rect.top <= my_robber.rect.centery <= building.rect.bottom:
                 collision_direction = "right"
-            if my_robber.rect.bottom >= building.rect.top and my_robber.moving_down:
+            if my_robber.rect.bottom >= building.rect.top and my_robber.moving_down and building.rect.left <= my_robber.rect.centerx <= building.rect.right:
                 collision_direction = "top"
-            if my_robber.rect.top <= building.rect.bottom and my_robber.moving_up:
+            if my_robber.rect.top <= building.rect.bottom and my_robber.moving_up and building.rect.left <= my_robber.rect.centerx <= building.rect.right:
                 collision_direction = "bottom"
 
             # Adjust the character's position based on collision direction
