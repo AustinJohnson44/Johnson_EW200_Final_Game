@@ -31,5 +31,6 @@ class Coin(pygame.sprite.Sprite):
 
     def update(self, player):
         if self.collected:
-            self.rect.center = player.rect.center
+            self.rect.left = player.rect.centerx
+            self.rect.bottom = player.rect.centery
 

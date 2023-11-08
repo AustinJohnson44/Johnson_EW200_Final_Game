@@ -79,7 +79,7 @@ while True:
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
-            print(score)
+            print("Thanks for playing!")
             pygame.quit()  # stops process that pygame.init started
             sys.exit()  # uber break - breaks out of everything
 
@@ -113,9 +113,10 @@ while True:
     if my_robber.rect.colliderect(my_coin):
         my_coin.collected = True
     # collision with safe house
-    if my_robber.rect.colliderect(my_safe_house):
-        if my_robber.rect.left == my_safe_house.rect.right:
-            my_robber.rect.left = my_safe_house.rect.right
+    if my_robber.rect.colliderect(my_safe_house) and my_coin.collected:
+        print("Thanks for playing!")
+        pygame.quit()
+        sys.exit()
     # collision with buildings in city
     for building in city:
         if my_robber.rect.colliderect(building.rect):
