@@ -23,14 +23,14 @@ class Robber(pygame.sprite.Sprite):
     def update(self):
         if self.moving_left:
             self.image = self.left_image
-            self.rect.x -= 1
+            self.rect.x -= CHARACTER_SPEED
         elif self.moving_right:
             self.image = self.right_image
-            self.rect.x += 1
+            self.rect.x += CHARACTER_SPEED
         if self.moving_up:
-            self.rect.y -= 1
+            self.rect.y -= CHARACTER_SPEED
         elif self.moving_down:
-            self.rect.y += 1
+            self.rect.y += CHARACTER_SPEED
         # make robber stay on screen
         if self.rect.left < 0:
             self.rect.left = 0
