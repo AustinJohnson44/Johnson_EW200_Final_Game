@@ -2,8 +2,9 @@ import pygame
 import sys
 import random
 import robber
-import building
-from building import city
+import bank
+import safe_house
+from building import Building, city
 from settings import *
 
 pygame.init()  # tells pygame to look/listen for inputs and events
@@ -28,15 +29,15 @@ vertical_road.set_colorkey((0, 0, 0))
 # create city buildings
 for a in range(0, SCREEN_HEIGHT // TILE_SIZE, 7):
     for b in range(0, (SCREEN_WIDTH // TILE_SIZE), 7):
-        my_building = building.Building(TILE_SIZE * b, TILE_SIZE * a)
+        my_building = Building(TILE_SIZE * b, TILE_SIZE * a)
         city.add(my_building)
 
 # create safe house in bottom left corner
-my_safe_house = building.SafeHouse(0, SCREEN_HEIGHT - 4 * TILE_SIZE)
+my_safe_house = safe_house.SafeHouse(0, SCREEN_HEIGHT - 4 * TILE_SIZE)
 # create a bank in the top right corner
-my_bank = building.Bank(SCREEN_WIDTH - 3 * TILE_SIZE, 0)
+my_bank = bank.Bank(SCREEN_WIDTH - 3 * TILE_SIZE, 0)
 # create coin object on bank
-my_coin = robber.Coin(SCREEN_WIDTH - 2 * TILE_SIZE, (3/2) * TILE_SIZE)
+my_coin = bank.Coin(SCREEN_WIDTH - 2 * TILE_SIZE, (3/2) * TILE_SIZE)
 # create a robber on the screen
 my_robber = robber.Robber(4 * TILE_SIZE, SCREEN_HEIGHT - 4 * TILE_SIZE)
 
