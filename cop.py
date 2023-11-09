@@ -24,14 +24,8 @@ class Cop(pygame.sprite.Sprite):
     def update(self):
         if self.moving_left:
             self.image = self.left_image
-            self.rect.x -= CHARACTER_SPEED
         elif self.moving_right:
             self.image = self.right_image
-            self.rect.x += CHARACTER_SPEED
-        if self.moving_up:
-            self.rect.y -= CHARACTER_SPEED
-        elif self.moving_down:
-            self.rect.y += CHARACTER_SPEED
         # make robber stay on screen
         if self.rect.left < 0:
             self.rect.left = 0
@@ -53,15 +47,26 @@ class Cop(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
-
     def chase_player(self, player, coin_collected):
-        if coin_collected:
-            dx = player.rect.centerx - self.rect.centerx
-            dy = player.rect.centery - self.rect.centery
-            angle = math.atan2(dy, dx)
-            speed = CHARACTER_SPEED  # Set the cop's speed here
-            self.rect.x += speed * math.cos(angle)
-            self.rect.y += speed * math.sin(angle)
+        # if coin_collected:
+        dx = player.rect.centerx - self.rect.centerx
+        dy = player.rect.centery - self.rect.centery
+        angle = math.atan2(dy, dx)
+        speed = 3 * CHARACTER_SPEED/4  # Set the cop's speed here
+        if math.cos(angle) > 0:
+            self.moving_left = False
+            self.moving_right = True
+        if math.cos(angle) < 0:
+            self.moving_right = False
+            self.moving_left = True
+        if math.sin(angle) > 0:
+            self.moving_up = False
+            self.moving_down = True
+        if math.sin(angle) < 0:
+            self.moving_down = False
+            self.moving_up = True
+        self.rect.x += speed * math.cos(angle)
+        self.rect.y += speed * math.sin(angle)
 
 
 police = pygame.sprite.Group()
