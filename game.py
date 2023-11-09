@@ -4,6 +4,7 @@ import random
 import robber
 import bank
 import safe_house
+import cop
 from building import Building, city
 from settings import *
 
@@ -40,6 +41,8 @@ my_bank = bank.Bank(SCREEN_WIDTH - 3 * TILE_SIZE, 0)
 my_coin = bank.Coin(SCREEN_WIDTH - 2 * TILE_SIZE, (3/2) * TILE_SIZE)
 # create a robber on the screen
 my_robber = robber.Robber(4 * TILE_SIZE, SCREEN_HEIGHT - 4 * TILE_SIZE)
+# create a cop
+cop1 = cop.Cop(random.randint(0, SCREEN_WIDTH - TILE_SIZE), random.randint(0, SCREEN_HEIGHT - TILE_SIZE))
 
 
 background = screen.copy()  # makes a second copy of the screen/canvas
@@ -106,6 +109,7 @@ while True:
     # update game objects
     my_robber.update()
     my_coin.update(my_robber)
+    cop1.update()
 
     # check for collisions
     pygame.sprite.spritecollide(my_safe_house, city, True)  # get rid of city buildings at same location as safe house
@@ -113,13 +117,20 @@ while True:
     # collision with bank
     if my_robber.rect.colliderect(my_coin):
         my_coin.collected = True
+    # collision between cop and robber
+    if my_robber.rect.colliderect(cop1):
+        print(f"Thanks for playing! Your score was: {score}")
+        pygame.quit()
+        sys.exit()
     # collision with safe house
     if my_robber.rect.colliderect(my_safe_house) and my_coin.collected:
-        print("Thanks for playing!")
+        score += 1
+        print(f"Thanks for playing! Your score was: {score}")
         pygame.quit()
         sys.exit()
     # collision with buildings in city
     for building in city:
+        # collisions for player
         if my_robber.rect.colliderect(building.rect):
             # Determine the direction of collision
             if (my_robber.rect.right >= building.rect.left and my_robber.moving_right
@@ -138,6 +149,25 @@ while True:
                     and building.rect.left <= my_robber.rect.centerx <= building.rect.right):
                 # collision from bottom
                 my_robber.rect.top = building.rect.bottom
+        # collisions with cops
+        if cop1.rect.colliderect(building.rect):
+            # Determine the direction of collision
+            if (cop1.rect.right >= building.rect.left and cop1.moving_right
+                    and building.rect.top <= cop1.rect.centery <= building.rect.bottom):
+                # collision from left
+                cop1.rect.right = building.rect.left
+            if (cop1.rect.left <= building.rect.right and cop1.moving_left
+                    and building.rect.top <= cop1.rect.centery <= building.rect.bottom):
+                # collision from right
+                cop1.rect.left = building.rect.right
+            if (cop1.rect.bottom >= building.rect.top and cop1.moving_down
+                    and building.rect.left <= cop1.rect.centerx <= building.rect.right):
+                # collision from top
+                cop1.rect.bottom = building.rect.top
+            if (cop1.rect.top <= building.rect.bottom and cop1.moving_up
+                    and building.rect.left <= cop1.rect.centerx <= building.rect.right):
+                # collision from bottom
+                cop1.rect.top = building.rect.bottom
                 
     # draw game screen
     screen.blit(background, (0, 0))
@@ -147,6 +177,8 @@ while True:
     my_bank.draw(screen)
     my_robber.draw(screen)
     my_coin.draw(screen)
+    if my_coin.collected:
+        cop1.draw(screen)
 
     pygame.display.flip()
     clock.tick(60)  # locks game to 60fps
