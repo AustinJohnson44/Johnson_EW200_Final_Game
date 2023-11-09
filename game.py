@@ -117,6 +117,7 @@ while True:
     # collision with bank
     if my_robber.rect.colliderect(my_coin):
         my_coin.collected = True
+        cop1.chase_player(my_robber, my_coin.collected)
     # collision between cop and robber
     if my_robber.rect.colliderect(cop1):
         print(f"Thanks for playing! Your score was: {score}")
@@ -177,8 +178,8 @@ while True:
     my_bank.draw(screen)
     my_robber.draw(screen)
     my_coin.draw(screen)
-    if my_coin.collected:
-        cop1.draw(screen)
+    #if my_coin.collected:
+    cop1.draw(screen)
 
     pygame.display.flip()
     clock.tick(60)  # locks game to 60fps

@@ -1,4 +1,5 @@
 import pygame
+import math
 from settings import *
 
 
@@ -16,8 +17,8 @@ class Cop(pygame.sprite.Sprite):
 
         self.rect = pygame.rect.Rect(x, y, self.image.get_width(), self.image.get_height())
         self.moving_left = False
-        self.moving_right = True
-        self.moving_up = True
+        self.moving_right = False
+        self.moving_up = False
         self.moving_down = False
 
     def update(self):
@@ -51,6 +52,16 @@ class Cop(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
+
+
+    def chase_player(self, player, coin_collected):
+        if coin_collected:
+            dx = player.rect.centerx - self.rect.centerx
+            dy = player.rect.centery - self.rect.centery
+            angle = math.atan2(dy, dx)
+            speed = CHARACTER_SPEED  # Set the cop's speed here
+            self.rect.x += speed * math.cos(angle)
+            self.rect.y += speed * math.sin(angle)
 
 
 police = pygame.sprite.Group()
