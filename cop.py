@@ -1,6 +1,7 @@
 import pygame
 import math
 from settings import *
+import random
 
 
 class Cop(pygame.sprite.Sprite):
@@ -47,7 +48,7 @@ class Cop(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
-    def chase_player(self, player, coin_collected):
+    def chase_player(self, player):
         # if coin_collected:
         dx = player.rect.centerx - self.rect.centerx
         dy = player.rect.centery - self.rect.centery
