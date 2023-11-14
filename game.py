@@ -9,6 +9,7 @@ from building import Building, city
 from settings import *
 
 pygame.init()  # tells pygame to look/listen for inputs and events
+pygame.mixer.init()
 
 screen = pygame.display.set_mode((SCREEN_WIDTH,
                                   SCREEN_HEIGHT))
@@ -26,6 +27,8 @@ v_road = pygame.image.load("assets/tiles/road8.png").convert()
 vertical_road = pygame.transform.scale(v_road,
                                        (v_road.get_width() * 2, v_road.get_height() * 2))
 vertical_road.set_colorkey((0, 0, 0))
+pygame.mixer.music.load("assets/sounds/mission_impossible_theme.mp3")
+sirens = pygame.mixer.Sound("assets/sounds/siren.mp3")
 
 level = 1  # initialize level
 
@@ -89,7 +92,9 @@ draw_game_background()
 while True:
     # game
     print(f"Level: {level}")
+    pygame.mixer.music.play()
     while True:
+
         # listen for events
         for event in pygame.event.get():
 
@@ -129,6 +134,7 @@ while True:
         # collision with bank
         if my_robber.rect.colliderect(my_coin):
             my_coin.collected = True
+            sirens.play()
             for cop in police:
                 cop.chase_player(my_robber)
         # collision between cop and robber
@@ -138,6 +144,7 @@ while True:
             sys.exit()
         # collision with safe house
         if my_robber.rect.colliderect(my_safe_house) and my_coin.collected:
+            sirens.stop()
             print(f"Your score is: {1000 * level**2}")
             level += 1
             break
