@@ -30,6 +30,9 @@ vertical_road.set_colorkey((0, 0, 0))
 pygame.mixer.music.load("assets/sounds/mission_impossible_theme.mp3")
 sirens = pygame.mixer.Sound("assets/sounds/siren.mp3")
 
+game_font = pygame.font.Font("assets/fonts/game_font.ttf", TITLE_SIZE)
+title = game_font.render("Cops and Robbers", True, (3, 23, 165))
+
 level = 1  # initialize level
 
 
@@ -58,7 +61,6 @@ spawn_cops(1)
 
 
 background = screen.copy()  # makes a second copy of the screen/canvas
-clock = pygame.time.Clock()
 
 
 def draw_game_background():
@@ -87,12 +89,35 @@ def draw_game_background():
 
 
 draw_game_background()
-
+title_screen_loop = True
+clock = pygame.time.Clock()
 
 while True:
     # game
     print(f"Level: {level}")
     pygame.mixer.music.play()
+    while title_screen_loop:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                print("Thanks for playing!")
+                pygame.quit()  # stops process that pygame.init started
+                sys.exit()  # uber break - breaks out of everything
+
+        screen.blit(background, (0, 0))
+
+        city.draw(screen)
+        my_safe_house.draw(screen)
+        my_bank.draw(screen)
+        my_robber.draw(screen)
+        my_coin.draw(screen)
+
+        screen.blit(title,
+                    (SCREEN_WIDTH // 2 - title.get_width() // 2, SCREEN_HEIGHT // 3 - title.get_height() // 2))
+
+        pygame.display.flip()
+        clock.tick(60)  # locks game to 60fps
+
     while True:
 
         # listen for events
@@ -139,7 +164,7 @@ while True:
                 cop.chase_player(my_robber)
         # collision between cop and robber
         if pygame.sprite.spritecollide(my_robber, police, False) and my_coin.collected:
-            print(f"Thanks for playing! You got caught by the robber :(")
+            print(f"You got caught by the police :(")
             pygame.quit()
             sys.exit()
         # collision with safe house
@@ -207,6 +232,7 @@ while True:
 
     # change game characteristics between levels
     my_coin.collected = False
+    title_screen_loop = True
     my_coin = bank.Coin(SCREEN_WIDTH - 2 * TILE_SIZE, (3 / 2) * TILE_SIZE)
     my_robber = robber.Robber(4 * TILE_SIZE, SCREEN_HEIGHT - 4 * TILE_SIZE)
     spawn_cops(1)

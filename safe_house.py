@@ -8,6 +8,7 @@ class SafeHouse(pygame.sprite.Sprite):
         img = pygame.image.load("assets/tiles/safe_house.png").convert()
         self.safe_house_image = pygame.transform.scale(img,
                                                        (img.get_width() * scale, img.get_height() * scale))
+        # seamus helped me with the transform
         self.safe_house_image.set_colorkey((0, 0, 0))
         self.rect = pygame.rect.Rect(x, y, self.safe_house_image.get_width(), self.safe_house_image.get_height())
 

@@ -1,7 +1,6 @@
 import pygame
 import math
 from settings import *
-import random
 
 
 class Cop(pygame.sprite.Sprite):
