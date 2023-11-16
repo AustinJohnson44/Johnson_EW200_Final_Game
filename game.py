@@ -4,6 +4,7 @@ import random
 import robber
 import bank
 import safe_house
+import buttons
 from cop import Cop, police
 from building import Building, city
 from settings import *
@@ -29,35 +30,6 @@ vertical_road = pygame.transform.scale(v_road,
 vertical_road.set_colorkey((0, 0, 0))
 pygame.mixer.music.load("assets/sounds/mission_impossible_theme.mp3")
 sirens = pygame.mixer.Sound("assets/sounds/siren.mp3")
-
-game_font = pygame.font.Font("assets/fonts/game_font.ttf", TITLE_SIZE)
-title = game_font.render("Cops and Robbers", True, (3, 23, 165))
-
-level = 1  # initialize level
-
-
-def spawn_cops(num_cops):
-    for i in range(num_cops):
-        popo = Cop(random.randint(0, SCREEN_WIDTH - TILE_SIZE), random.randint(0, SCREEN_HEIGHT - TILE_SIZE))
-        police.add(popo)
-
-
-# create city buildings
-for a in range(0, SCREEN_HEIGHT // TILE_SIZE, 7):
-    for b in range(0, (SCREEN_WIDTH // TILE_SIZE), 7):
-        my_building = Building(TILE_SIZE * b, TILE_SIZE * a)
-        city.add(my_building)
-
-# create safe house in bottom left corner
-my_safe_house = safe_house.SafeHouse(0, SCREEN_HEIGHT - 4 * TILE_SIZE)
-# create a bank in the top right corner
-my_bank = bank.Bank(SCREEN_WIDTH - 3 * TILE_SIZE, 0)
-# create coin object on bank
-my_coin = bank.Coin(SCREEN_WIDTH - 2 * TILE_SIZE, (3/2) * TILE_SIZE)
-# create a robber on the screen
-my_robber = robber.Robber(4 * TILE_SIZE, SCREEN_HEIGHT - 4 * TILE_SIZE)
-# create a cop
-spawn_cops(1)
 
 
 background = screen.copy()  # makes a second copy of the screen/canvas
@@ -88,8 +60,58 @@ def draw_game_background():
             background.blit(vertical_road, (x, y))
 
 
+def spawn_cops(num_cops):
+    for i in range(num_cops):
+        popo = Cop(random.randint(0, SCREEN_WIDTH - TILE_SIZE), random.randint(0, SCREEN_HEIGHT - TILE_SIZE))
+        police.add(popo)
+
+
+# create city buildings
+for a in range(0, SCREEN_HEIGHT // TILE_SIZE, 7):
+    for b in range(0, (SCREEN_WIDTH // TILE_SIZE), 7):
+        my_building = Building(TILE_SIZE * b, TILE_SIZE * a)
+        city.add(my_building)
+
+# create safe house in bottom left corner
+my_safe_house = safe_house.SafeHouse(0, SCREEN_HEIGHT - 4 * TILE_SIZE)
+# create a bank in the top right corner
+my_bank = bank.Bank(SCREEN_WIDTH - 3 * TILE_SIZE, 0)
+# create coin object on bank
+my_coin = bank.Coin(SCREEN_WIDTH - 2 * TILE_SIZE, (3/2) * TILE_SIZE)
+# create a robber on the screen
+my_robber = robber.Robber(4 * TILE_SIZE, SCREEN_HEIGHT - 4 * TILE_SIZE)
+# create a cop
+spawn_cops(1)
+
+
+def draw_game():
+    screen.blit(background, (0, 0))
+
+    city.draw(screen)
+    my_safe_house.draw(screen)
+    my_bank.draw(screen)
+    my_robber.draw(screen)
+    my_coin.draw(screen)
+    if my_coin.collected:
+        police.draw(screen)
+
+
+# create the title button
+title_button = buttons.Buttons("Cops and Robbers", (3, 23, 165))
+
+# game_font = pygame.font.Font("assets/fonts/game_font.ttf", TITLE_SIZE)
+# title = game_font.render("Cops and Robbers", True, (3, 23, 165))
+
+
+def draw_title_screen():
+    draw_game()
+    screen.blit(title_button.text, (SCREEN_WIDTH//2 - title_button.text.get_width()//2,
+                                    SCREEN_HEIGHT//2 - title_button.text.get_height()//2))
+
+
 draw_game_background()
 title_screen_loop = True
+level = 1  # initialize level
 clock = pygame.time.Clock()
 
 while True:
@@ -104,17 +126,10 @@ while True:
                 pygame.quit()  # stops process that pygame.init started
                 sys.exit()  # uber break - breaks out of everything
 
-        screen.blit(background, (0, 0))
+            if event.type == pygame.KEYDOWN:
+                title_screen_loop = False
 
-        city.draw(screen)
-        my_safe_house.draw(screen)
-        my_bank.draw(screen)
-        my_robber.draw(screen)
-        my_coin.draw(screen)
-
-        screen.blit(title,
-                    (SCREEN_WIDTH // 2 - title.get_width() // 2, SCREEN_HEIGHT // 3 - title.get_height() // 2))
-
+        draw_title_screen()
         pygame.display.flip()
         clock.tick(60)  # locks game to 60fps
 
@@ -217,16 +232,7 @@ while True:
                             cop.rect.top = building.rect.bottom
 
         # draw game screen
-        screen.blit(background, (0, 0))
-
-        city.draw(screen)
-        my_safe_house.draw(screen)
-        my_bank.draw(screen)
-        my_robber.draw(screen)
-        my_coin.draw(screen)
-        if my_coin.collected:
-            police.draw(screen)
-
+        draw_game()
         pygame.display.flip()
         clock.tick(60)  # locks game to 60fps
 
