@@ -82,6 +82,8 @@ my_coin = bank.Coin(SCREEN_WIDTH - 2 * TILE_SIZE, (3/2) * TILE_SIZE)
 my_robber = robber.Robber(4 * TILE_SIZE, SCREEN_HEIGHT - 4 * TILE_SIZE)
 # create a cop
 spawn_cops(1)
+# initialize level
+level = 1
 
 
 def draw_game():
@@ -97,21 +99,30 @@ def draw_game():
 
 
 # create the title button
-title_button = buttons.Buttons("Cops and Robbers", (3, 23, 165))
-
-# game_font = pygame.font.Font("assets/fonts/game_font.ttf", TITLE_SIZE)
-# title = game_font.render("Cops and Robbers", True, (3, 23, 165))
+title_button = buttons.Buttons("Cops and Robbers", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
+                               SCREEN_HEIGHT // 5)
+# create start button
+start_button = buttons.Buttons("START", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
+                               SCREEN_HEIGHT // 3)
+# create quit button
+quit_button = buttons.Buttons("QUIT", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
+                              2*SCREEN_HEIGHT // 3)
+# create level/score button
+level_button = buttons.Buttons(f"Level {level}", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
+                               SCREEN_HEIGHT // 2)
 
 
 def draw_title_screen():
     draw_game()
-    screen.blit(title_button.text, (SCREEN_WIDTH//2 - title_button.text.get_width()//2,
-                                    SCREEN_HEIGHT//2 - title_button.text.get_height()//2))
+    title_button.draw(screen)
+    start_button.draw(screen)
+    level_button.draw(screen)
+    quit_button.draw(screen)
 
 
 draw_game_background()
 title_screen_loop = True
-level = 1  # initialize level
+score_clicked = 0
 clock = pygame.time.Clock()
 
 while True:
@@ -119,6 +130,13 @@ while True:
     print(f"Level: {level}")
     pygame.mixer.music.play()
     while title_screen_loop:
+        mouse_pos = pygame.mouse.get_pos()
+        if score_clicked % 2 == 0:
+            level_button = buttons.Buttons(f"Level {level}", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
+                                           SCREEN_HEIGHT // 2)
+        elif score_clicked % 2 != 0:
+            level_button = buttons.Buttons(f"Score: {1000 * level**2}", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
+                                           SCREEN_HEIGHT // 2)
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
@@ -126,8 +144,16 @@ while True:
                 pygame.quit()  # stops process that pygame.init started
                 sys.exit()  # uber break - breaks out of everything
 
-            if event.type == pygame.KEYDOWN:
+            # start button clicked
+            if start_button.rect.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONUP:
                 title_screen_loop = False
+            # quit button clicked
+            if quit_button.rect.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONUP:
+                print("Thanks for playing!")
+                pygame.quit()
+                sys.exit()
+            if level_button.rect.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONUP:
+                score_clicked += 1
 
         draw_title_screen()
         pygame.display.flip()
