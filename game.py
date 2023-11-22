@@ -135,7 +135,7 @@ while True:
             level_button = buttons.Buttons(f"Level {level}", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
                                            SCREEN_HEIGHT // 2)
         elif score_clicked % 2 != 0:
-            level_button = buttons.Buttons(f"Score: {1000 * level**2}", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
+            level_button = buttons.Buttons(f"Score {1000 * level**2}", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
                                            SCREEN_HEIGHT // 2)
         for event in pygame.event.get():
 
@@ -206,8 +206,8 @@ while True:
         # collision between cop and robber
         if pygame.sprite.spritecollide(my_robber, police, False) and my_coin.collected:
             print(f"You got caught by the police :(")
-            pygame.quit()
-            sys.exit()
+            level = 1
+            break
         # collision with safe house
         if my_robber.rect.colliderect(my_safe_house) and my_coin.collected:
             sirens.stop()
