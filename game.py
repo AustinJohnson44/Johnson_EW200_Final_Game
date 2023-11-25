@@ -28,8 +28,10 @@ v_road = pygame.image.load("assets/tiles/road8.png").convert()
 vertical_road = pygame.transform.scale(v_road,
                                        (v_road.get_width() * 2, v_road.get_height() * 2))
 vertical_road.set_colorkey((0, 0, 0))
-pygame.mixer.music.load("assets/sounds/mission_impossible_theme.mp3")
+background_music = pygame.mixer.Sound("assets/sounds/mission_impossible_theme.mp3")
+background_music.set_volume(0.1)
 sirens = pygame.mixer.Sound("assets/sounds/siren.mp3")
+sirens.set_volume(0.2)
 
 
 background = screen.copy()  # makes a second copy of the screen/canvas
@@ -128,14 +130,14 @@ clock = pygame.time.Clock()
 while True:
     # game
     print(f"Level: {level}")
-    pygame.mixer.music.play()
+    background_music.play()
     while title_screen_loop:
         mouse_pos = pygame.mouse.get_pos()
         if score_clicked % 2 == 0:
             level_button = buttons.Buttons(f"Level {level}", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
                                            SCREEN_HEIGHT // 2)
         elif score_clicked % 2 != 0:
-            level_button = buttons.Buttons(f"Score {1000 * level**2}", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
+            level_button = buttons.Buttons(f"Score {10000 * (level-1)**2}", BLUE, SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2,
                                            SCREEN_HEIGHT // 2)
         for event in pygame.event.get():
 
@@ -208,10 +210,12 @@ while True:
             print(f"You got caught by the police :(")
             level = 1
             break
+
         # collision with safe house
         if my_robber.rect.colliderect(my_safe_house) and my_coin.collected:
             sirens.stop()
-            print(f"Your score is: {1000 * level**2}")
+            background_music.stop()
+            print(f"Your score is: {10000 * (level-1)**2}")
             level += 1
             break
         # collision between the robber and buildings in city
@@ -263,6 +267,8 @@ while True:
         clock.tick(60)  # locks game to 60fps
 
     # change game characteristics between levels
+    sirens.stop()
+    background_music.stop()
     my_coin.collected = False
     title_screen_loop = True
     my_coin = bank.Coin(SCREEN_WIDTH - 2 * TILE_SIZE, (3 / 2) * TILE_SIZE)
