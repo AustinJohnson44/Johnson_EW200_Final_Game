@@ -17,6 +17,3 @@ class Buttons(pygame.sprite.Sprite):
         text_surface = self.font.render(self.text, True, self.text_color)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
-
-    def update(self):
-        mouse_pos = pygame.mouse.get_pos()
